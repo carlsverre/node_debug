@@ -6,15 +6,19 @@ debug.listen = function (port, host) {
   fu.listen(port, host);
 };
 
-fu.get("/", fu.staticHandler("index.html"));
-fu.get("/screen.css", fu.staticHandler("screen.css"));
-fu.get("/jquery.treeview.css", fu.staticHandler("jquery.treeview.css"));
-fu.get("/jquery.js", fu.staticHandler("jquery.js"));
-fu.get("/jquery.cookie.js", fu.staticHandler("jquery.cookie.js"));
-fu.get("/jquery.treeview.js", fu.staticHandler("jquery.treeview.js"));
-fu.get("/jquery.treeview.async.js", fu.staticHandler("jquery.treeview.async.js"));
-fu.get("/treeview-default.gif", fu.staticHandler("treeview-default.gif"));
-fu.get("/treeview-default-line.gif", fu.staticHandler("treeview-default-line.gif"));
+fu.get("/", fu.staticHandler("./node_debug/index.html"));
+fu.get("/screen.css", fu.staticHandler("./node_debug/screen.css"));
+fu.get("/css/jquery-ui-1.7.2.custom.css", fu.staticHandler("./node_debug/css/jquery-ui-1.7.2.custom.css"));
+fu.get("/jquery.treeview.css", fu.staticHandler("./node_debug/jquery.treeview.css"));
+fu.get("/jquery.js", fu.staticHandler("./node_debug/jquery.js"));
+fu.get("/jquery.cookie.js", fu.staticHandler("./node_debug/jquery.cookie.js"));
+fu.get("/jquery.treeview.js", fu.staticHandler("./node_debug/jquery.treeview.js"));
+fu.get("/jquery.treeview.async.js", fu.staticHandler("./node_debug/jquery.treeview.async.js"));
+fu.get("/treeview-default.gif", fu.staticHandler("./node_debug/treeview-default.gif"));
+fu.get("/treeview-default-line.gif", fu.staticHandler("./node_debug/treeview-default-line.gif"));
+fu.get("/jquery.ui.min.js", fu.staticHandler("./node_debug/jquery.ui.min.js"));
+
+
 
 fu.get("/eval", function (req, res) {
   if (req.uri.params.eval !== undefined && req.uri.params.id !== undefined) {
