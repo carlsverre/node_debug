@@ -17,6 +17,8 @@ fu.get("/jquery.treeview.async.js", fu.staticHandler("./node_debug/jquery.treevi
 fu.get("/treeview-default.gif", fu.staticHandler("./node_debug/treeview-default.gif"));
 fu.get("/treeview-default-line.gif", fu.staticHandler("./node_debug/treeview-default-line.gif"));
 fu.get("/jquery.ui.min.js", fu.staticHandler("./node_debug/jquery.ui.min.js"));
+fu.get("/js/autoresize.jquery.min.js", fu.staticHandler("./node_debug/js/autoresize.jquery.min.js"));
+
 
 
 
