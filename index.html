@@ -34,7 +34,7 @@
       //if (!util.isBlank(msg)) send(msg);
       evalStr(msg);
       $("#consoleInput").attr("value", ""); // clear the input field.
-
+	  longPollConsole();
 	})
 
 
@@ -133,7 +133,7 @@
      
     });
 
-    longPollConsole();
+    
   });
   
   function evalStr (str) {
