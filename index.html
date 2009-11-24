@@ -28,15 +28,21 @@
 
 	/* help button */
 	$('#helpButton').click(function(e){
-	  if($('#help').css('display') == 'none'){
-        $('#help').slideDown();
+	  if($('#helpFrame').css('display') == 'none'){
+        $('#helpFrame').slideDown();
 	  }
 	  else{
-        $('#help').slideUp();
+        $('#helpFrame').slideUp();
 	  }	
 
 	});
 
+	/* setup consoleInput */
+	$('#consoleInput').focus(function(e){
+		if($('#consoleInput').val() == 'JavaScript console......(write JS code here)'){
+			$('#consoleInput').val('');
+		};
+	})
 
 	/* end navigation buttons */
 
@@ -46,38 +52,38 @@
 
     var linesCurrent = 0;
     var lines = [];
-    $("#input").keydown(function (e) {
+    $("#consoleInput").keydown(function (e) {
       // Deal with up/down arrowkeys
       if (e.keyCode == 38) {
         if (linesCurrent == lines.length) {
-          if ($("#input").val() != '') {
-            lines.push($("#input").val());
+          if ($("#consoleInput").val() != '') {
+            lines.push($("#consoleInput").val());
           }
-        } else if ($("#input").val() != lines[linesCurrent]) {
-          lines.push($("#input").val());
+        } else if ($("#consoleInput").val() != lines[linesCurrent]) {
+          lines.push($("#consoleInput").val());
         }
       
         if (linesCurrent > 0) {
           linesCurrent--;
-          $("#input").val(lines[linesCurrent]);
+          $("#consoleInput").val(lines[linesCurrent]);
         }
         return false;
       } else if (e.keyCode == 40) {
         if (linesCurrent == lines.length) {
-          if ($("#input").val() != '') {
-            lines.push($("#input").val());
+          if ($("#consoleInput").val() != '') {
+            lines.push($("#consoleInput").val());
             linesCurrent++;
-            $("#input").val('');
+            $("#consoleInput").val('');
           }
         } else {
-          if ($("#input").val() != lines[linesCurrent]) {
-            lines.push($("#input").val());
+          if ($("#consoleInput").val() != lines[linesCurrent]) {
+            lines.push($("#consoleInput").val());
           }
           linesCurrent++;
           if (lines[linesCurrent] != null) {
-            $("#input").val(lines[linesCurrent]);
+            $("#consoleInput").val(lines[linesCurrent]);
           } else {
-            $("#input").val('');
+            $("#consoleInput").val('');
           }
         }
         return false;
@@ -85,13 +91,13 @@
   
       if (e.keyCode != 13 /* Return */) return;
    
-      lines.push($("#input").val());
+      lines.push($("#consoleInput").val());
       linesCurrent = lines.length;
   
-      var msg = $("#input").val().replace("\n", "");
+      var msg = $("#consoleInput").val().replace("\n", "");
       //if (!util.isBlank(msg)) send(msg);
       evalStr(msg);
-      $("#input").attr("value", ""); // clear the input field.
+      $("#consoleInput").attr("value", ""); // clear the input field.
     });
 
     longPollConsole();
@@ -167,9 +173,22 @@
 	  padding:5px;
 	}
 
-	#help{ display:none;}
+	#helpFrame{ 
+	 display:none;
+	 left:30px;
+	 position:relative;
+	 width:100%;
+	 padding:5px;
+    }
 
-    #input {
+
+	#help{ 
+ 	 background-color:#FFFFFF;
+	 width:400px;
+	 padding:5px;
+    }
+
+    #consoleInput {
       width: 100%;
       font-size: inherit;
       margin: 0;
@@ -186,7 +205,7 @@
 	}
 
     /* Padding for response and input should be same. */
-    #input, .response {
+    #consoleInput, .response {
       padding: 1em;
       font-size: inherit;
     }
@@ -232,6 +251,11 @@
       font-weight:bold;
 	}
     
+	.subTitle{
+	  font-size:14px; 
+      font-weight:bold;
+	}
+
     body {
       overflow: hidden;
     }
@@ -245,9 +269,34 @@
             <input name="clearButton" id="clearButton" value="Clear Log" type="button" />
             <input name="helpButton" id="helpButton" value="Help" type="button" />
 		</div>
-		<div id="help">This is the help section</div>
+		<div id="helpFrame">
+		<div id="help">
+		  <p class="subTitle">Help</p>
+		  <p>Project home: <a href="http://github.com/Marak/node_debug" target="_blank">http://github.com/Marak/node_debug</a></p>
+			<p>To enable debugging first you must install and start the debugger in your node.js application.</p>
+<pre><code>
+debug = require("./node_debug/debug");
+
+/* start debugging on host:8080 */
+debug.listen(8080);
+</code></pre>
+			<p>Now that the debugger is running you may place debug.log() statements in your node.js code</p>
+
+<pre><code>
+var view = {
+  title: "Main Page",
+  calc: function() {
+    return 2 + 4;
+  }
+}
+
+debug.log(view);
+</code></pre>
+
+		</div>
+	</div>
         <div id="inputBar">
-          <input tabindex="1" type="text" id="input"/>
+          <input tabindex="1" type="text" id="consoleInput"  value="JavaScript console......(write JS code here)"/>
         </div>
 	</div>
     <div id="console"></div>
