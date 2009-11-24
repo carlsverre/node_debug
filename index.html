@@ -3,7 +3,7 @@
 <head>
 
   <meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
-  <title>Node</title>
+  <title>node_debug</title>
   
   <link rel="stylesheet" href="jquery.treeview.css" />
   <link rel="stylesheet" href="screen.css" />
@@ -18,6 +18,30 @@
   var id = Math.floor(Math.random()*10000);
   
   $(document).ready(function (){
+
+	/* setup navigation buttons */
+
+	/* clear console button */
+	$('#clearButton').click(function(e){
+      $('#console').html('');
+	})
+
+	/* help button */
+	$('#helpButton').click(function(e){
+	  if($('#help').css('display') == 'none'){
+        $('#help').slideDown();
+	  }
+	  else{
+        $('#help').slideUp();
+	  }	
+
+	});
+
+
+	/* end navigation buttons */
+
+
+
     $.ajaxSetup({ cache: false });
 
     var linesCurrent = 0;
@@ -77,6 +101,9 @@
     // TODO This should be a POST
     $.getJSON("/eval?id="+id+"&eval="+encodeURIComponent(str),
     function (data) {
+
+
+	 
       var response;
       if (data.error !== true) {
         response = '<div class="response">'
@@ -104,12 +131,17 @@
   function longPollConsole() {
     $.getJSON("/console?id="+id,
     function(data){
+
+	
+
       $.each(data, function(i, x) {
+
         response = '<div class="response">'
                  + '  <ul class="tree" id="cmd_'+x+'"></ul>'
                  + '</div>'
                  ;
         $("#console").prepend(response);
+
         $("#cmd_"+x).treeview({
           url: "/tree?cmd="+x+"&id="+id,
           unique: true
@@ -125,9 +157,17 @@
       overflow: auto;
       width: 100%;
       bottom: 0;
-      top: 4em;
-      position: absolute;
     }
+
+	#navHeader{
+	  background-color:#999;
+	}
+
+	#transport{
+	  padding:5px;
+	}
+
+	#help{ display:none;}
 
     #input {
       width: 100%;
@@ -140,6 +180,10 @@
       clear: both;
       height: 1.5em;
     }
+
+	#clearButton {
+	  width:100px;
+	}
 
     /* Padding for response and input should be same. */
     #input, .response {
@@ -182,6 +226,11 @@
       display: block;
       float: left;
     }
+
+	.title{
+	  font-size:16px; 
+      font-weight:bold;
+	}
     
     body {
       overflow: hidden;
@@ -190,9 +239,17 @@
   
   </head>
   <body>
-    <div id="inputBar">
-      <input tabindex="1" type="text" id="input"/>
-    </div>
+	<div id="navHeader">
+		<div id="transport">
+            <span class="title">node_debug - </span>
+            <input name="clearButton" id="clearButton" value="Clear Log" type="button" />
+            <input name="helpButton" id="helpButton" value="Help" type="button" />
+		</div>
+		<div id="help">This is the help section</div>
+        <div id="inputBar">
+          <input tabindex="1" type="text" id="input"/>
+        </div>
+	</div>
     <div id="console"></div>
   </body>
 </html>
