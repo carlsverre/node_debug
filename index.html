@@ -24,7 +24,6 @@
 
 	/* setup navigation buttons */
 
-
 	/* run/exec console button */
 	$('#runButton').click(function(e){
 
@@ -36,6 +35,8 @@
 	  lines.push($("#consoleInput").val());
       linesCurrent = lines.length;
   
+	  $('#consoleHistory').append('<option value = "'+$("#consoleInput").val()+'">'+$("#consoleInput").val()+'</option>');
+
       var msg = $("#consoleInput").val().replace("\n", "");
       //if (!util.isBlank(msg)) send(msg);
       evalStr(msg);
@@ -61,11 +62,10 @@
 	  }	
 
 	});
+	/* end navigation buttons */
 
 	/* setup consoleInput */
 	$('#consoleInputFrame').resizable();
-
-
 	$('#consoleInput').autoResize({
 		// On resize:
 		onResize : function() {
@@ -87,7 +87,19 @@
 		};
 	})
 
-	/* end navigation buttons */
+	/* setup consoleHistory */
+	$('#consoleHistory').click(function(e){
+	  //console.log($(this).attr('selectedIndex'));
+	  
+
+	  var selectedIndex = $(this).attr('selectedIndex');
+	  console.log(selectedIndex);
+	  if(selectedIndex != -1){
+		$('#consoleInput').val(lines[selectedIndex]);
+	  }
+
+	});
+
 
     $.ajaxSetup({ cache: false });
 
@@ -95,6 +107,8 @@
     var lines = [];
     $("#consoleInput").keypress(function (e) {
       // Deal with up/down arrowkeys
+
+
 
 	  /*
       if (e.keyCode == 38) {
@@ -242,20 +256,27 @@
     }
 
 	#consoleInputFrame{ 
-	  height:20px;
+	  height:300px;
 	  width:100%;
+	  border-bottom:0.5em solid #AAAAAA;
+	  border-width:0 0 0.5em;
     }
 
     #consoleInput {
-      width: 100%;
+      width: 40%;
 	  height:100%;
       margin: 0;
-      border-width: 0;
-      border-bottom: 0.5em solid #aaa;
+	  border-width:0;
       background: #eee;
       outline-width: 0;
       clear: both;
     }
+
+	#consoleHistory{
+	  width:40%;
+	  height:100%
+	}
+
 
 	#runButton {
 	  width:50px;
@@ -332,7 +353,7 @@
             <input name="runButton" id="runButton" value="Run" type="button" />
             <input name="clearButton" id="clearButton" value="Clear" type="button" />
             <input name="helpButton" id="helpButton" value="Help" type="button" />
-			<span>Tip: try typing "this;" and clicking "Run"</span>
+			<span><strong>Tip:</strong> click "Run"       <strong>Protip:</strong> type "this;" and click "Run"</span>
 		</div>
 		<div id="helpFrame">
 		<div id="help">
@@ -361,7 +382,25 @@ debug.log(view);
 		</div>
 	</div>
         <div id="consoleInputFrame">
-		  <textarea tabindex="1" id="consoleInput">JavaScript console......(write JS code here)</textarea>
+		  <textarea tabindex="1" id="consoleInput">
+/* write some code */
+var statement = {};
+
+statement.whatsup = "Write your own code in this area";
+statement.thenwhat= "Click the 'Run' button to execute";
+
+statement.is_this_awesome = function(){
+  return true;
+}
+
+/* debug the object */
+statement;
+
+/* each block you execute will get stored in history and may be reloaded by clicking on the entry */
+
+
+</textarea>
+		  <select id="consoleHistory" name="consoleHistory" multiple="multiple"></select>
         </div>
 	</div>
     <div id="console"></div>
