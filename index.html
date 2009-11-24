@@ -149,6 +149,11 @@
   
   function evalStr (str) {
     // TODO This should be a POST
+
+	if($('#runButton').val()=='Cancel'){return;}
+	$('#runButton').val('Cancel');
+	$('body').addClass("busy");
+
     $.getJSON("/eval?id="+id+"&eval="+encodeURIComponent(str),
     function (data) {
 
@@ -175,15 +180,18 @@
           unique: true
         });
       }
+
+	 $('#runButton').val('Run');
+	 $('body').removeClass("busy");
     });
   }
 
   function longPollConsole() {
+
+
     $.getJSON("/console?id="+id,
     function(data){
-
-	
-
+	 
       $.each(data, function(i, x) {
 
         response = '<div class="response">'
@@ -197,6 +205,7 @@
           unique: true
         });
       });
+
       longPollConsole();
     });
   }
@@ -307,6 +316,8 @@
 	  font-size:14px; 
       font-weight:bold;
 	}
+
+	.busy *{ cursor:wait; !important}
 
     body {
       overflow: hidden;
