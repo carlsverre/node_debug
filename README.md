@@ -16,14 +16,18 @@ Include the following in your project:
 
 Example:
 
-    $ /usr/local/bin/node example.js
+    $ /usr/local/bin/node server.js
 
-Browse to: http://127.0.0.1:8080/
+Browse to: http://127.0.0.1:8000/ for http
+Browse to: http://127.0.0.1:8080/ for debug
 
-Now type:
+var view = {
+	  title: "Main Page",
+	  calc: function() {
+		return 2 + 4;
+	  }
+	}
 
-    node
-
-    setTimeout(function () { debug.log("Test"); }, 5000)
+debug.log(view);
 
 Click on objects to expand properties.
