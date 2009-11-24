@@ -23,12 +23,27 @@
 
 	/* setup navigation buttons */
 
+
+	/* run/exec console button */
+	$('#runButton').click(function(e){
+
+	  lines.push($("#consoleInput").val());
+      linesCurrent = lines.length;
+  
+      var msg = $("#consoleInput").val().replace("\n", "");
+      //if (!util.isBlank(msg)) send(msg);
+      evalStr(msg);
+      $("#consoleInput").attr("value", ""); // clear the input field.
+
+	})
+
+
 	/* clear console button */
 	$('#clearButton').click(function(e){
       $('#console').html('');
       $('#consoleInput').val('');
 
-	})
+	});
 
 	/* help button */
 	$('#helpButton').click(function(e){
@@ -42,6 +57,8 @@
 	});
 
 	/* setup consoleInput */
+	$('#consoleInputFrame').resizable();
+
 	$('#consoleInput').focus(function(e){
 		if($('#consoleInput').val() == 'JavaScript console......(write JS code here)'){
 			$('#consoleInput').val('');
@@ -54,8 +71,10 @@
 
     var linesCurrent = 0;
     var lines = [];
-    $("#consoleInput").keydown(function (e) {
+    $("#consoleInput").keypress(function (e) {
       // Deal with up/down arrowkeys
+
+	  /*
       if (e.keyCode == 38) {
         if (linesCurrent == lines.length) {
           if ($("#consoleInput").val() != '') {
@@ -90,18 +109,28 @@
         }
         return false;
       }
-  
+	
+	  */
+
       if (e.keyCode != 13 /* Return */){ 
-		return;
+
 	  }
    
-      lines.push($("#consoleInput").val());
-      linesCurrent = lines.length;
-  
-      var msg = $("#consoleInput").val().replace("\n", "");
-      //if (!util.isBlank(msg)) send(msg);
-      evalStr(msg);
-      $("#consoleInput").attr("value", ""); // clear the input field.
+
+	  var currentScrollHeight = $('#consoleInput');
+	  currentScrollHeight = currentScrollHeight[0].scrollHeight ;
+
+	  var currentInputFrameHeight = $('#consoleInputFrame').height();
+	  console.log(currentInputFrameHeight);
+	  console.log(currentScrollHeight);
+	  
+	  if(currentScrollHeight > currentInputFrameHeight){
+		$('#consoleInputFrame').height(currentScrollHeight);
+	  }
+
+	  return; 
+
+     
     });
 
     longPollConsole();
@@ -192,7 +221,7 @@
 	 padding:5px;
     }
 
-	#inputBar{ 
+	#consoleInputFrame{ 
 	  height:20px;
 	  width:100%;
     }
@@ -308,7 +337,7 @@ debug.log(view);
 
 		</div>
 	</div>
-        <div id="inputBar">
+        <div id="consoleInputFrame">
 		  <textarea tabindex="1" id="consoleInput">JavaScript console......(write JS code here)</textarea>
         </div>
 	</div>
