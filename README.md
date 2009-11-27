@@ -1,33 +1,30 @@
-Node Debug
+node_debug
 ==========
 
-A HTTP based console and object explorer for [node.js](http://nodejs.org/).
-
-Its like a REPL for a node app in the browser.
+An asynchronous HTTP based console and object explorer for node.js [node.js](http://nodejs.org/).
 
 
 Usage
 -----
 
-Include the following in your project:
+var sys = require('sys'),    
+	http = require('http'),   
+	debug = require("./node_debug/debug");
 
-    var debug = require("debug.js");
-    debug.listen(8080);
+/* start debugging on host:8080 */
+debug.listen(8080);
 
-Example:
+http.createServer(function (req, res) {
+  setTimeout(function () {
+    res.sendHeader(200, {'Content-Type': 'text/plain'});
+	res.finish();
+  }, 2000);
+}).listen(8000);
 
-    $ /usr/local/bin/node server.js
+/* server started */	
+sys.puts('Server running at http://127.0.0.1:8000/');
+
 
 Browse to: http://127.0.0.1:8000/ for http
 Browse to: http://127.0.0.1:8080/ for debug
 
-var view = {
-	  title: "Main Page",
-	  calc: function() {
-		return 2 + 4;
-	  }
-	}
-
-debug.log(view);
-
-Click on objects to expand properties.
